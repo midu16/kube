@@ -35,8 +35,8 @@
       - docker-ce
       - docker-ce-cli
       - containerd.io
-    notify:
-      - docker status
+#    notify:
+#      - docker status
 
   - name: Add vagrant user to docker group
     user:
@@ -88,8 +88,6 @@
       name: kubelet
       daemon_reload: yes
       state: restarted
-  - name: Initialize the Kubernetes cluster using kubeadm
-    command: kubeadm init --apiserver-advertise-address="192.168.50.10" --apiserver-cert-extra-sans="192.168.50.10"  --node-name k8s-master --pod-network-cidr=192.168.0.0/16
   - name: Copy the join command to server location
     copy: src=join-command dest=/tmp/join-command.sh mode=0777
   - name: Join the node to cluster
