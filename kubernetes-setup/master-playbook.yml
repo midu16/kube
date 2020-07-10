@@ -54,7 +54,7 @@
   - name: Disable swap
     command: swapoff -a
     when: ansible_swaptotal_mb > 0
- - name: Add an apt signing key for Kubernetes
+  - name: Add an apt signing key for Kubernetes
     apt_key:
       url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
       state: present
