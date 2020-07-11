@@ -36,4 +36,8 @@ Vagrant.configure("2") do |config|
             end
         end
     end
+
+    config.vm.define "influxDB-node" do |influx|
+        influx.vm.box = IMAGE_NAME
+        influx.vm.network "private_network", ip: "192.168.50."
 end
