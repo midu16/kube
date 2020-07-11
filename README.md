@@ -4,7 +4,7 @@ The scope of this git is to provision an K8s distributed cluster using ansible a
 The k8s-master contain also the ```helm-cli``` for deploying any k8s pods using helm package manager for kubernetes.
 
 
-# Requirements
+## Requirements
 On premise host will require the following pre-requisites :
 
     - Vagrant provider : 
@@ -19,7 +19,7 @@ On premise host will require the following pre-requisites :
 
     - InfluxDB shell version: 1.7.10
 
-# Operating System 
+## Operating System 
 OS compatibility :
 
     - Ubuntu 16.04 - done
@@ -28,7 +28,7 @@ OS compatibility :
 
     - Debian 10
 
-# Documentation
+## Documentation
 ```
 [1] https://helm.sh/docs/
 
