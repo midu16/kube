@@ -1,0 +1,23 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: Adding apt repository for InfluxDB
+    apt_repository:
+      repo: deb https://repos.influxdata.com/ubuntu bionic stable
+      state: present
+      filename: influxdb.list
+  - name: Install InfluxDB binaries
+    apt: 
+      name: "{{ packages }}"
+      state: present
+      update_cache: yes
+    vars:
+      packages:
+        - influxdb
+  - name: Restart InfluxDB
+    service:
+      name: influxdb
+      daemon_reload: yes
+      enabled: yes
+      state: restarted

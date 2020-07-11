@@ -1,4 +1,6 @@
+# Vagrant OS 
 IMAGE_NAME = "bento/ubuntu-16.04"
+# Number of K8s worker nodes
 N = 2
 
 Vagrant.configure("2") do |config|
@@ -39,5 +41,16 @@ Vagrant.configure("2") do |config|
 
     config.vm.define "influxDB-node" do |influx|
         influx.vm.box = IMAGE_NAME
-        influx.vm.network "private_network", ip: "192.168.50."
+        influx.vm.network "private_network", ip: "192.168.50.8"
+        influx.vm.hostname = "influxDB-node"
+        influx.vm.provision "ansible" do |ansible|
+            ansible.playbook = "influx-setup/influxDB-playbook.yml"
+            ansible.verbose = "-vvv"
+            ansible.extra_vars = {
+                node_ip: "192.168.50.8",
+            }
+        end
+    end
+
+
 end
