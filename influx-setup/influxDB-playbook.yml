@@ -1,0 +1,30 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: Adding apt repository for InfluxDB
+    apt_repository:
+      repo: deb https://repos.influxdata.com/ubuntu bionic stable
+      state: present
+      filename: influxdb.list
+  - name: Install InfluxDB binaries
+    apt: 
+      name: "{{ packages }}"
+      state: present
+      update_cache: yes
+    vars:
+      packages:
+        - influxdb
+  - name: Copy the join command to server location
+    copy: 
+      src: influxDB/influxdb.conf 
+      dest: /etc/influxdb/influxdb.conf
+      owner: root
+      group: root
+      mode: 0777
+  - name: Restart InfluxDB
+    service:
+      name: influxdb
+      daemon_reload: yes
+      enabled: yes
+      state: restarted
