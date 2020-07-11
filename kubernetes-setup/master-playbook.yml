@@ -92,6 +92,13 @@
   - name: Install calico pod network
     become: false
     command: kubectl create -f https://docs.projectcalico.org/v3.9/manifests/calico.yaml
+  - name: Configure the helm-cli
+    copy:
+      src: helm/get_helm.sh
+      dest: /tmp/get_helm.sh
+      owner: root
+      group: root
+      mode: '0700'
   - name: Generate join command
     command: kubeadm token create --print-join-command
     register: join_command
@@ -100,13 +107,7 @@
   handlers:
     - name: docker status
       service: name=docker state=started
-  - name: Configure the helm-cli
-    copy:
-      src: helm/get_helm.sh
-      dest: /tmp/get_helm.sh
-      owner: root
-      group: root
-      mode: '0700'
+
     
     
 
