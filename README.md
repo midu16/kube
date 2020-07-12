@@ -28,6 +28,43 @@ OS compatibility :
 
     - Debian 10
 
+## Block components
+The following components are included in each VM:
+
+    -  ```influxDB-node``` includes the following components: 
+
+                    - influxDB
+
+                    - telegraf - intention is that all components should have at least the ```basic metrics (cpu, disk, diskio, kernel, mem, processes, swap, system)``` exported towards influxDB and Grafana.
+
+    - ```k8s-master``` includes the following components:
+                    
+                    - docker
+                    
+                    - telegraf
+
+                    - kubelet 
+
+                    - kubeadm 
+
+                    - kubectl
+
+    - ```node-N``` includes the following components:
+
+                    - docker
+                    
+                    - telegraf
+
+                    - kubelet 
+
+                    - kubeadm 
+
+                    - kubectl
+
+On the K8s-cluster it is intended to ```helm install prometheus``` and ```helm install grafana```. Connect GrafanaUI to  prometheus and influxDB.
+
+
+
 ## Documentation
 ```
 [1] https://helm.sh/docs/

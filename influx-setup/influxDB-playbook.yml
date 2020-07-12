@@ -17,7 +17,7 @@
     vars:
       packages:
         - influxdb
-  - name: Copy the join command to server location
+  - name: Copy the influxdb.conf command to server location
     copy: 
       src: influxDB/influxdb.conf 
       dest: /etc/influxdb/influxdb.conf
@@ -32,3 +32,34 @@
       state: restarted
   - name: Create the admin account of the influxDB
     local_action: curl -XPOST "http://192.168.50.8:8086/query" --data-urlencode "q=CREATE USER superadmin WITH PASSWORD 'vagrant1234' WITH ALL PRIVILEGES"
+#
+# adding telegraf to the influxDB-node to export basic metrics
+#
+  - name: Install telegraf 
+    shell: |
+      wget -qO- https://repos.influxdata.com/influxdb.key | sudo apt-key add - ;
+      source /etc/lsb-release ;
+      echo "deb https://repos.influxdata.com/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
+  - name: Install telegraf binaries
+    apt: 
+      name: "{{ packages }}"
+      state: present
+      update_cache: yes
+    vars:
+      packages:
+        - telegraf
+  - name: Create the admin account of the influxDB
+    local_action: curl -XPOST "http://192.168.50.8:8086/query" --data-urlencode "q=CREATE USER telegraf WITH PASSWORD 'telegraf1234' WITH ALL PRIVILEGES"
+  - name: Copy the telegraf.conf command to server location
+    copy: 
+      src: influxDB/telegraf/telegraf.conf 
+      dest: /etc/telegraf/telegraf.conf
+      owner: root
+      group: root
+      mode: 0777
+  - name: Restart telegraf
+    service:
+      name: telegraf
+      daemon_reload: yes
+      enabled: yes
+      state: restarted
