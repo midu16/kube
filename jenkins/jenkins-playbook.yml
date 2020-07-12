@@ -1,0 +1,22 @@
+---
+    - hosts: all
+      become: true
+      tasks:
+      - name: Adding apt repository for jenkins
+        apt_repository:
+          repo: deb http://pkg.jenkins-ci.org/debian binary/
+          state: present
+          filename: influxdb.list
+      - name: Add repo-key to the host
+        shell: sudo wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -
+      - name: Install InfluxDB binaries
+        apt: 
+          name: "{{ packages }}"
+          state: present
+          update_cache: yes
+        vars:
+          packages:
+            - jenkins
+      - name: Obtain the administrative password
+        command: sudo cat /var/log/jenkins/jenkins.log
+        register: admin_password

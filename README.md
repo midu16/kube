@@ -3,6 +3,7 @@ Mihai I. - 2020
 The scope of this git is to provision an K8s distributed cluster using ansible and vagrant. 
 The k8s-master contain also the ```helm-cli``` for deploying any k8s pods using helm package manager for kubernetes.
 
+The ```jenkins-node``` role is to enable the posibility of maintaining in an CI-CD way all the custom made helm-charms. In order to access the jenkinsUI visit the following web-url ```http://192.168.50.5:8080/login``` and check the installation log for the administrative password for the first login.
 
 ## Requirements
 On premise host will require the following pre-requisites :
@@ -36,6 +37,12 @@ The following components are included in each VM:
                     - influxDB
 
                     - telegraf : intention is that all components should have at least the basic metrics (cpu, disk, diskio, kernel, mem, processes, swap, system) exported towards influxDB and Grafana.
+
+```jenkins-node``` includes the following compontens:
+
+                    - telegraf
+
+                    - jenkins 
 
 ```k8s-master``` includes the following components:
                     
