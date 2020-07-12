@@ -7,6 +7,8 @@
       repo: deb https://repos.influxdata.com/ubuntu bionic stable
       state: present
       filename: influxdb.list
+  - name: Add repo-key to the host
+    shell: sudo curl -sL https://repos.influxdata.com/influxdb.key | sudo apt-key add -
   - name: Install InfluxDB binaries
     apt: 
       name: "{{ packages }}"
@@ -28,3 +30,5 @@
       daemon_reload: yes
       enabled: yes
       state: restarted
+  - name: Create the admin account of the influxDB
+    local_action: curl -XPOST "http://192.168.50.8:8086/query" --data-urlencode "q=CREATE USER superadmin WITH PASSWORD 'vagrant1234' WITH ALL PRIVILEGES"
