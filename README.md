@@ -25,9 +25,9 @@ OS compatibility :
 
     - Ubuntu 16.04 - done
     
-    - Ubuntu 18.04 - 
+    - Ubuntu 18.04 - ongoing
 
-    - Debian 10
+    - Debian 10 - ongoing
 
 ## Block components
 The following components are included in each VM:
