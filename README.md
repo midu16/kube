@@ -83,8 +83,10 @@ af303db  node-1     virtualbox running /Users/midu/Documents/GitHub/kube
 f35b142  node-3     virtualbox running /Users/midu/Documents/GitHub/kube
 8f6499f  node-4     virtualbox running /Users/midu/Documents/GitHub/kube
 7c45f9d  node-5     virtualbox running /Users/midu/Documents/GitHub/kube
-
 ```
+! Note: The display restults were obtain having 1 x k8s-master and 5 x worker-node's.
+
+
 Once log-in into the ```k8s-master``` we can check the status of the cluster:
 ```
 vagrant@k8s-master:~$ kubectl get nodes

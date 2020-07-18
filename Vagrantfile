@@ -1,7 +1,7 @@
 # Vagrant OS 
 IMAGE_NAME = "bento/ubuntu-16.04"
 # Number of K8s worker nodes
-N = 5
+N = 1
 
 Vagrant.configure("2") do |config|
     config.ssh.insert_key = false
