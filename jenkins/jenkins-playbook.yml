@@ -1,0 +1,25 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: Adding apt repository for jenkins
+    apt_repository:
+      repo: deb http://pkg.jenkins-ci.org/debian binary/
+      state: present
+      filename: jenkins.list
+  - name: Add repo-key to the host
+    shell: wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -
+  - name: Install default-jre binaries
+    apt:
+      name: default-jre
+      state: present
+      update_cache: yes
+  - name: Install jenkins binaries
+    apt: 
+      name: jenkins
+      state: present
+      update_cache: yes
+      allow_unauthenticated: yes
+  - name: Obtain the administrative password
+    command: cat /var/log/jenkins/jenkins.log
+    register: admin_password

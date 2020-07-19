@@ -1,0 +1,7 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: Download k8s-dashboard helm-charm
+    shell: |
+      helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/;

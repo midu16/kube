@@ -99,6 +99,8 @@
       owner: root
       group: root
       mode: '0700'
+  - name: Install the helm-cli
+    shell: chmod +x /tmp/get_helm.sh; bash /tmp/get_helm.sh
   - name: Generate join command
     command: kubeadm token create --print-join-command
     register: join_command
