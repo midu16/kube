@@ -70,6 +70,10 @@ The following components are included in each VM:
 
 On the K8s-cluster it is intended to ```helm install prometheus``` and ```helm install grafana```. Connect GrafanaUI to  prometheus and influxDB.
 
+Architecture:
+
+![HLD Solution Architecture](https://github.com/midu16/kube/blob/dev/architecture/architecture.png)
+
 ## Results
 After runnning the ```$ vagrant up``` command from the working director the expected output is the following:
 ```
