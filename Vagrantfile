@@ -15,7 +15,7 @@ Vagrant.configure("2") do |config|
         master.vm.box = IMAGE_NAME
         master.vm.network "private_network", ip: "192.168.50.10"
         master.vm.hostname = "k8s-master"
-        master.vm.provision "ansible" do |ansible|
+        master.vm.provision  "playbook1", type:'ansible' do |ansible|
             ansible.playbook = "kubernetes-setup/master-playbook.yml"
 	        ansible.verbose = "-vvv"
             ansible.extra_vars = {
@@ -23,19 +23,29 @@ Vagrant.configure("2") do |config|
             }
         end
     end
-
     (1..N).each do |i|
         config.vm.define "node-#{i}" do |node|
             node.vm.box = IMAGE_NAME
             node.vm.network "private_network", ip: "192.168.50.#{i + 10}"
             node.vm.hostname = "node-#{i}"
-            node.vm.provision "ansible" do |ansible|
+            node.vm.provision  "playbook1", type:'ansible' do |ansible|
                 ansible.playbook = "kubernetes-setup/node-playbook.yml"
 		        ansible.verbose = "-vvv"
                 ansible.extra_vars = {
                     node_ip: "192.168.50.#{i + 10}",
                 }
             end
+        end
+    end
+
+#Configure the k8s-master helm-cli
+    config.vm.define "k8s-master" do |master|
+        master.vm.provision  "playbook2", type:'ansible' do |ansible|
+            ansible.playbook = "helm-repo/helm-k8s-dashboard/k8s-dashboard-playbook.yml"
+            ansible.verbose = "-vvv"                
+            ansible.extra_vars = {
+                node_ip: "192.168.50.10",
+            }
         end
     end
 

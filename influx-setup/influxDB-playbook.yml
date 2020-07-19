@@ -2,21 +2,18 @@
 - hosts: all
   become: true
   tasks:
+  - name: Add repo-key to the host
+    shell: sudo curl -sL https://repos.influxdata.com/influxdb.key | sudo apt-key add -
   - name: Adding apt repository for InfluxDB
     apt_repository:
       repo: deb https://repos.influxdata.com/ubuntu bionic stable
       state: present
       filename: influxdb.list
-  - name: Add repo-key to the host
-    shell: sudo curl -sL https://repos.influxdata.com/influxdb.key | sudo apt-key add -
   - name: Install InfluxDB binaries
     apt: 
-      name: "{{ packages }}"
+      name: influxdb
       state: present
       update_cache: yes
-    vars:
-      packages:
-        - influxdb
   - name: Copy the influxdb.conf command to server location
     copy: 
       src: influxDB/influxdb.conf 
@@ -31,7 +28,7 @@
       enabled: yes
       state: restarted
   - name: Create the admin account of the influxDB
-    local_action: curl -XPOST "http://192.168.50.8:8086/query" --data-urlencode "q=CREATE USER superadmin WITH PASSWORD 'vagrant1234' WITH ALL PRIVILEGES"
+    shell: curl -XPOST "http://localhost:8086/query" --data-urlencode "q=CREATE USER superadmin WITH PASSWORD 'vagrant1234' WITH ALL PRIVILEGES"
 #
 # adding telegraf to the influxDB-node to export basic metrics
 #
@@ -42,17 +39,12 @@
       echo "deb https://repos.influxdata.com/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
   - name: Install telegraf binaries
     apt: 
-      name: "{{ packages }}"
+      name: telegraf
       state: present
       update_cache: yes
-    vars:
-      packages:
-        - telegraf
-  - name: Create the admin account of the influxDB
-    local_action: curl -XPOST "http://192.168.50.8:8086/query" --data-urlencode "q=CREATE USER telegraf WITH PASSWORD 'telegraf1234' WITH ALL PRIVILEGES"
   - name: Copy the telegraf.conf command to server location
     copy: 
-      src: influxDB/telegraf/telegraf.conf 
+      src: telegraf/telegraf.conf 
       dest: /etc/telegraf/telegraf.conf
       owner: root
       group: root

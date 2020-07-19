@@ -9,10 +9,10 @@ The ```jenkins-node``` role is to enable the posibility of maintaining in an CI-
 On premise host will require the following pre-requisites :
 
     - Vagrant provider : 
-                - VirtualBox
-                - VMware
-                - Hyper-V
-                - Vagrant Cloud
+                - VirtualBox    - done
+                - VMware        - ongoing
+                - Hyper-V       - ongoing
+                - Vagrant Cloud - ongoing
 
     - Install Vagrant : https://www.vagrantup.com/downloads , recomended is to use Vagrant 2.2.9.
     
@@ -20,16 +20,15 @@ On premise host will require the following pre-requisites :
 
     - InfluxDB shell version: 1.7.10
 
-    - 
+    - bento/ubuntu-16.04 version: 202007.17.0
+
 ## Operating System 
 OS compatibility :
-
-    - Ubuntu 16.04 - done
-    
-    - Ubuntu 18.04 - ongoing
-
-    - Debian 10 - ongoing
-
+```
+    - Ubuntu 16.04  - done
+    - Ubuntu 18.04  - ongoing
+    - Debian 10     - ongoing
+```
 ## Block components
 The following components are included in each VM:
 
@@ -83,6 +82,8 @@ af303db  node-1     virtualbox running /Users/midu/Documents/GitHub/kube
 f35b142  node-3     virtualbox running /Users/midu/Documents/GitHub/kube
 8f6499f  node-4     virtualbox running /Users/midu/Documents/GitHub/kube
 7c45f9d  node-5     virtualbox running /Users/midu/Documents/GitHub/kube
+771c678  influxDB-node virtualbox running /Users/midu/Documents/GitHub/kube
+b8e9b67  jenkins-node  virtualbox running /Users/midu/Documents/GitHub/kube
 ```
 ! Note: The display restults were obtain having 1 x k8s-master and 5 x worker-node's.
 
@@ -122,6 +123,9 @@ kube-system   kube-proxy-mn2jx                           1/1     Running   0    
 kube-system   kube-proxy-x6qk4                           1/1     Running   0          18m
 kube-system   kube-scheduler-k8s-master                  1/1     Running   0          24m
 ```
+
+## K8s Helm-Charms Documentation
+
 ## Documentation
 ```
 [1] https://helm.sh/docs/
@@ -137,5 +141,7 @@ kube-system   kube-scheduler-k8s-master                  1/1     Running   0    
 [6] https://prometheus.io
 
 [7] https://docs.influxdata.com/telegraf/v1.14/
+
+[8] https://hub.helm.sh/charts/k8s-dashboard/kubernetes-dashboard
 
 ```
