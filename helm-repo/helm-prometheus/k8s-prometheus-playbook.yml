@@ -1,0 +1,25 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Download prometheus helm-charm
+      shell: |
+        helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+    - name: Update the helm-charms
+      shell: |
+        helm repo update
+    - name: Create the monitoring namespace
+      shell: |
+        kubectl create namespace monitoring
+    - name: Install Prometheus helm
+      shell: |
+        helm install prometheus stable/prometheus --namespace monitoring
+    - name: Install Grafana helm
+      shell: |
+        helm install stable/grafana --namespace monitoring
+    - name: 
+      shell: |
+        kubectl get secret --namespace monitoring grafana-1595171629 -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+      register: grafana_password
+    - name: Copy grafana_password to local file
+      local_action: copy content="{{ grafana_password.stdout_lines[0] }}" dest="./grafana_password"

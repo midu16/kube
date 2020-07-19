@@ -8,12 +8,18 @@
       state: present
       filename: jenkins.list
   - name: Add repo-key to the host
-    shell: sudo wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -
+    shell: wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -
+  - name: Install default-jre binaries
+    apt:
+      name: default-jre
+      state: present
+      update_cache: yes
   - name: Install jenkins binaries
     apt: 
       name: jenkins
       state: present
       update_cache: yes
+      allow_unauthenticated: yes
   - name: Obtain the administrative password
-    command: sudo cat /var/log/jenkins/jenkins.log
+    command: cat /var/log/jenkins/jenkins.log
     register: admin_password

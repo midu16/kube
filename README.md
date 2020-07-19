@@ -74,6 +74,10 @@ Architecture:
 
 ![HLD Solution Architecture](https://github.com/midu16/kube/blob/dev/architecture/architecture.png)
 
+## Networking 
+Two networks are used for the interactions of the ```workstation with the k8s-cluster```, first network is using the ```CP subnet (192.168.50.0/24)``` and the second network is the ```UP subnet (10.0.2.15/24)```. The interaction between the ```workstation with the Vagrant VMs``` is used only the  ```CP subnet (192.168.50.0/24)``` for both Control Plane and User Plane.
+ 
+
 ## Results
 After runnning the ```$ vagrant up``` command from the working director the expected output is the following:
 ```
@@ -129,7 +133,11 @@ kube-system   kube-scheduler-k8s-master                  1/1     Running   0    
 ```
 
 ## K8s Helm-Charms Documentation
+```
+[1] https://hub.helm.sh/charts/stable/grafana/3.3.6
 
+
+```
 ## Documentation
 ```
 [1] https://helm.sh/docs/
