@@ -1,0 +1,69 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: Install Kubernetes binaries
+    apt: 
+      name: unzip
+      state: present
+      update_cache: yes
+  - name: Download Consul
+    shell: |
+        wget https://releases.hashicorp.com/consul/1.8.0/consul_1.8.0_linux_amd64.zip
+        unzip consul_1.8.0_linux_amd64.zip
+        mv consul /usr/bin
+  - name: Configure the consul.service
+    copy:
+        src: consul/consul.service
+        dest: /etc/systemd/system/consul.service
+        owner: root
+        group: root
+        mode: '0700'
+  - name: ansible create directory consul.d
+    file:
+        path: /etc/consul.d
+        state: directory
+  - name: Configure the ui.json
+    copy:
+        src: consul/ui.json
+        dest: /etc/consul.d/ui.json
+        owner: root
+        group: root
+        mode: '0700'
+  - name: Configure the service
+    shell: |
+      systemctl daemon-reload
+      systemctl enable consul
+      systemctl start consul
+  - name: Download Vault
+    shell: |
+        wget https://releases.hashicorp.com/vault/1.4.3/vault_1.4.3_linux_amd64.zip
+        unzip vault_1.4.3_linux_amd64.zip
+        mv vault /usr/bin
+        export VAULT_ADDR=http://127.0.0.1:8200
+  - name: ansible create directory vault
+    file:
+        path: /etc/vault
+        state: directory
+  - name: Configure the config.hcl
+    copy:
+      src: vault/config.hcl
+      dest: /etc/vault/config.hcl
+      owner: root
+      group: root
+      mode: '0700'
+  - name: Configure the vault.service
+    copy:
+        src: vault/vault.service
+        dest: /etc/systemd/system/vault.service
+        owner: root
+        group: root
+        mode: '0700'
+  - name: Configure the service
+    shell: |
+      systemctl daemon-reload
+      systemctl enable vault
+      systemctl start vault
+  - name: vault operator init
+    shell: |
+      vault operator init

@@ -72,16 +72,17 @@ Two networks are used for the interactions of the ```workstation with the k8s-cl
 After runnning the ```$ vagrant up``` command from the working director the expected output is the following:
 ```
 $ vagrant global-status
-id       name       provider   state   directory
----------------------------------------------------------------------------
-5011ca5  k8s-master virtualbox running /Users/midu/Documents/GitHub/kube
-af303db  node-1     virtualbox running /Users/midu/Documents/GitHub/kube
-30e3cfc  node-2     virtualbox running /Users/midu/Documents/GitHub/kube
-f35b142  node-3     virtualbox running /Users/midu/Documents/GitHub/kube
-8f6499f  node-4     virtualbox running /Users/midu/Documents/GitHub/kube
-7c45f9d  node-5     virtualbox running /Users/midu/Documents/GitHub/kube
-771c678  influxDB-node virtualbox running /Users/midu/Documents/GitHub/kube
-b8e9b67  jenkins-node  virtualbox running /Users/midu/Documents/GitHub/kube
+id       name          provider   state   directory
+------------------------------------------------------------------------------
+2ec5303  k8s-master    virtualbox running /Users/midu/Documents/GitHub/kube
+9efce6d  node-1        virtualbox running /Users/midu/Documents/GitHub/kube
+30e3cfc  node-2        virtualbox running /Users/midu/Documents/GitHub/kube
+f35b142  node-3        virtualbox running /Users/midu/Documents/GitHub/kube
+8f6499f  node-4        virtualbox running /Users/midu/Documents/GitHub/kube
+7c45f9d  node-5        virtualbox running /Users/midu/Documents/GitHub/kube
+48fd748  influxDB-node virtualbox running /Users/midu/Documents/GitHub/kube
+b5c5d63  jenkins-node  virtualbox running /Users/midu/Documents/GitHub/kube
+eee6504  vault-node    virtualbox running /Users/midu/Documents/GitHub/kube
 ```
 ! Note: The display restults were obtain having 1 x k8s-master and 5 x worker-node's.
 
@@ -121,10 +122,66 @@ kube-system   kube-proxy-mn2jx                           1/1     Running   0    
 kube-system   kube-proxy-x6qk4                           1/1     Running   0          18m
 kube-system   kube-scheduler-k8s-master                  1/1     Running   0          24m
 ```
+## Improving the security
+In the branch https://github.com/midu16/kube/commit/2f78bb3bf50ffcaa7e096bd5182c968067133817 the security is one of the issues during the provisioning. The following steps were determined:
+```
+- http to https migration                       - ongoing
+- centralized encrypton password management     - ongoing
+- generate certifications valid for 72h         - ongoing
+- defined password choose rule                  - ongoing
+```
+The ```vault-node``` compnents are the following:
+```
+- consul
+- vault
+```
+The back-end of the vault is consul and it can be access at http://192.168.50.6:8500/ui/dc1/services/consul/instances
+The front-end is vault and it can be access at http://192.168.50.6:8200/ui/vault/secrets using the Token obtain as the output of the following command ```vault operator init```
+
+Debugging process:
+```
+vagrant@vault-node:~$ sudo systemctl status vault -l
+● vault.service - Vault
+   Loaded: loaded (/etc/systemd/system/vault.service; enabled; vendor preset: enabled)
+   Active: active (running) since Sun 2020-07-19 19:32:37 UTC; 2min 24s ago
+     Docs: https://www.vault.io/
+ Main PID: 12903 (vault)
+    Tasks: 10
+   Memory: 102.8M
+      CPU: 136ms
+   CGroup: /system.slice/vault.service
+           └─12903 /usr/bin/vault server -config=/etc/vault/config.hcl
+
+Jul 19 19:32:37 vault-node vault[12903]:               Go Version: go1.13.12
+Jul 19 19:32:37 vault-node vault[12903]:               Listener 1: tcp (addr: "0.0.0.0:8200", cluster address: "0.0.0.0:8201", max_request_duration: "1
+Jul 19 19:32:37 vault-node vault[12903]:                Log Level: info
+Jul 19 19:32:37 vault-node vault[12903]:                    Mlock: supported: true, enabled: true
+Jul 19 19:32:37 vault-node vault[12903]:            Recovery Mode: false
+Jul 19 19:32:37 vault-node vault[12903]:                  Storage: consul (HA available)
+Jul 19 19:32:37 vault-node vault[12903]:                  Version: Vault v1.4.3
+Jul 19 19:32:37 vault-node vault[12903]: ==> Vault server started! Log data will stream in below:
+Jul 19 19:32:37 vault-node vault[12903]: 2020-07-19T19:32:37.488Z [INFO]  proxy environment: http_proxy= https_proxy= no_proxy=
+Jul 19 19:32:37 vault-node vault[12903]: 2020-07-19T19:32:37.489Z [WARN]  no `api_addr` value specified in config or in VAULT_API_ADDR; falling back to
+vagrant@vault-node:~$ vault status
+Key                Value
+---                -----
+Seal Type          shamir
+Initialized        false
+Sealed             true
+Total Shares       0
+Threshold          0
+Unseal Progress    0/0
+Unseal Nonce       n/a
+Version            n/a
+HA Enabled         true
+```
 
 ## K8s Helm-Charms Documentation
 ```
 [1] https://hub.helm.sh/charts/stable/grafana/3.3.6
+
+[2] https://hub.helm.sh/charts/stable/mysql
+
 
 
 ```
@@ -145,5 +202,7 @@ kube-system   kube-scheduler-k8s-master                  1/1     Running   0    
 [7] https://docs.influxdata.com/telegraf/v1.14/
 
 [8] https://hub.helm.sh/charts/k8s-dashboard/kubernetes-dashboard
+
+[9] https://www.vagrantup.com/docs/networking/public_network
 
 ```
