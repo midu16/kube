@@ -62,7 +62,7 @@ On the K8s-cluster it is intended to ```helm install prometheus``` and ```helm i
 
 Architecture:
 
-![HLD Solution Architecture](https://github.com/midu16/kube/blob/dev/architecture/architecture.png)
+![HLD Solution Architecture](https://github.com/midu16/kube/blob/dev-lte/architecture/architecture.png)
 
 ## Networking 
 Two networks are used for the interactions of the ```workstation with the k8s-cluster```, first network is using the ```CP subnet (192.168.50.0/24)``` and the second network is the ```UP subnet (10.0.2.15/24)```. The interaction between the ```workstation with the Vagrant VMs``` is used only the  ```CP subnet (192.168.50.0/24)``` for both Control Plane and User Plane.
