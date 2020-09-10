@@ -153,6 +153,6 @@ You can support the project in the following ways:
 
 - Opening an ```Issue``` ticket. Where do you try to be comprehensive in the feature that is not working for you.
 
-- By buying me a coffee
+- Buy me a coffee:
 
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/paypalme/midu161992?locale.x=en_US)
