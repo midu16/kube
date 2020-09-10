@@ -147,3 +147,12 @@ kube-system   kube-scheduler-k8s-master                  1/1     Running   0    
 [8] https://hub.helm.sh/charts/k8s-dashboard/kubernetes-dashboard
 
 ```
+
+## Supporting the project
+You can support the project in the following ways:
+
+- Opening an ```Issue``` ticket. Where do you try to be comprehensive in the feature that is not working for you.
+
+- By buying me a coffee
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/paypalme/midu161992?locale.x=en_US)
