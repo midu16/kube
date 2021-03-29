@@ -28,6 +28,7 @@ OS compatibility :
     - Ubuntu 16.04  - done
     - Ubuntu 18.04  - ongoing
     - Debian 10     - ongoing
+    - CentOS7       - ongoing
 ```
 ## Block components
 The following components are included in each VM:
@@ -206,3 +207,12 @@ HA Enabled         true
 [9] https://www.vagrantup.com/docs/networking/public_network
 
 ```
+
+## Supporting the project
+You can support the project in the following ways:
+
+- Opening an ```Issue``` ticket. Where do you try to be comprehensive in the feature that is not working for you.
+
+- Buy me a coffee:
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/paypalme/midu161992?locale.x=en_US)
